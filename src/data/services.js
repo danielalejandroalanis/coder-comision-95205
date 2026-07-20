@@ -1,0 +1,38 @@
+export const services = [
+  {
+    id: 1,
+    name: "Consulta médica",
+    description: "Consulta clínica general",
+    duration: 30,
+    price: 12000,
+    category: "salud",
+    available: true,
+  },
+  {
+    id: 2,
+    name: "Corte de pelo",
+    description: "Corte clásico masculino",
+    duration: 45,
+    price: 9000,
+    category: "peluquería",
+    available: true,
+  },
+  {
+    id: 3,
+    name: "Clase de yoga",
+    description: "Clase grupal inicial",
+    duration: 60,
+    price: 7000,
+    category: "bienestar",
+    available: false,
+  },
+  {
+    id: 4,
+    name: "Clase de yoga",
+    description: "Clase grupal inicial",
+    duration: 60,
+    price: 7000,
+    category: "bienestar",
+    available: false,
+  },
+];
