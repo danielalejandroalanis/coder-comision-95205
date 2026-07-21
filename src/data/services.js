@@ -7,6 +7,7 @@ export const services = [
     price: 12000,
     category: "salud",
     available: true,
+    local: this
   },
   {
     id: 2,
@@ -29,10 +30,40 @@ export const services = [
   {
     id: 4,
     name: "Clase de yoga",
-    description: "Clase grupal inicial",
+    description: "Clase individual inicial",
     duration: 60,
-    price: 7000,
+    price: 14000,
     category: "bienestar",
     available: false,
   },
 ];
+
+// Objeto es de tipo :
+// id que es un numero
+// name que es un texto
+// description es un texto
+// duration es un numero
+// price es un numero
+// category es un texto
+// available es un verdadero/falso
+
+// la constante services es un array de objetos de tipo:
+// {
+//     id: number,
+//     name: string,
+//     description: string,
+//     duration: number,
+//     price: number,
+//     category: string,
+//     available: boolean,
+//   },
+
+//  {
+//     id: 1,
+//     name: "Consulta médica",
+//     description: "Consulta clínica general",
+//     duration: 30,
+//     price: 12000,
+//     category: "salud",
+//     available: true,
+//   },

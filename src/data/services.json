@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Consulta médica",
+    "description": "Consulta clínica general",
+    "duration": 30,
+    "price": 12000,
+    "category": "salud",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Yoga",
+    "description": "Clase de yoga",
+    "duration": 30,
+    "price": 12000,
+    "category": "bienestar",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Yoga",
+    "description": "Clase de yoga",
+    "duration": 30,
+    "price": 12000,
+    "category": "bienestar",
+    "available": true
+  }
+]
