@@ -52,5 +52,14 @@
     "price": 12000,
     "category": "bienestar",
     "available": true
+  },
+  {
+    "id": 7,
+    "name": "Yoga",
+    "description": "Clase de yoga",
+    "duration": 30,
+    "price": 12000,
+    "category": "bienestar",
+    "available": true
   }
 ]
