@@ -24,7 +24,11 @@ export class ServicesService {
 
   async getServiceById(id) {
     const service = await this.repository.getById(id);
-    if (!service) throw new Error("Servicio no encontrado");
+    if (!service) {
+      const error = new Error("Servicio no encontrado");
+      error.statusCode = 404;
+      throw error;
+    }
     return service;
   }
 
@@ -39,31 +43,27 @@ export class ServicesService {
       !category ||
       available === undefined
     ) {
-      return res.status(400).json({
-        status: "error",
-        message: "Todos los campos son obligatorios",
-      });
+      const error = new Error("Todos los campos son obligatorios");
+      error.statusCode = 400;
+      throw error;
     }
 
     if (typeof duration !== "number" || duration <= 0) {
-      return res.status(400).json({
-        status: "error",
-        message: "duration debe ser un número mayor que cero",
-      });
+      const error = new Error("duration debe ser un numero mayor que cero");
+      error.statusCode = 400;
+      throw error;
     }
 
     if (typeof price !== "number" || price < 0) {
-      return res.status(400).json({
-        status: "error",
-        message: "price debe ser un número válido",
-      });
+      const error = new Error("price debe ser un numero valido");
+      error.statusCode = 400;
+      throw error;
     }
 
     if (typeof available !== "boolean") {
-      return res.status(400).json({
-        status: "error",
-        message: "available debe ser un booleano",
-      });
+      const error = new Error("available debe ser un booleano");
+      error.statusCode = 400;
+      throw error;
     }
 
     return this.repository.create({
@@ -74,5 +74,50 @@ export class ServicesService {
       category,
       available,
     });
+  }
+
+  async updateService(id, data){
+    const { name, description, duration, price, category, available } = data;
+
+    if (
+      !name ||
+      !description ||
+      duration === undefined ||
+      price === undefined ||
+      !category ||
+      available === undefined
+    ) {
+      const error = new Error("Todos los campos son obligatorios");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const updatedService = await this.repository.update(id, {
+      name,
+      description,
+      duration,
+      price,
+      category,
+      available
+    });
+
+    if(!updatedService){
+      const error = new Error("Servicio no encontrado");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return updatedService;
+  }
+  async deleteService(id){
+    const deletedService = await this.repository.delete(id);
+
+    if(!deletedService){
+      const error = new Error("Servicio no encontrado");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return deletedService;
   }
 }

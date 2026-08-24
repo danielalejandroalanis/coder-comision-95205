@@ -5,7 +5,7 @@ function sendError(res, error, fallbackMessage) {
   if (statusCode === 500) console.log(error);
   return res.status(statusCode).json({
     status: "error",
-    message: status === 500 ? fallbackMessage : error.message,
+    message: statusCode === 500 ? fallbackMessage : error.message,
   });
 }
 
@@ -25,7 +25,7 @@ export async function getServices(req, res) {
 
 export async function getServiceById(req, res) {
   try {
-    const serviceId = Number(req.params.sid);
+    const serviceId = req.params.sid;
     const service = await servicesService.getServiceById(serviceId);
     return res.status(200).json({
       status: "success",
@@ -47,5 +47,33 @@ export async function createService(req, res) {
     });
   } catch (error) {
     return sendError(res, error, "No se pudo crear el servicio");
+  }
+}
+
+export async function updateService(req, res) {
+  try {
+    const updatedService = await servicesService.updateService(req.params.sid, req.body);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Servicio actualizado correctamente",
+      payload: updatedService
+    })
+  } catch (error) {
+    return sendError(res, error, "No se pudo actualizar el servicio");
+  }
+}
+
+export async function deleteService(req, res) {
+  try {
+    const deletedService = await servicesService.deleteService(req.params.sid);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Servicio eliminado correctamente",
+      payload: deletedService
+    })
+  } catch (error) {
+    return sendError(res, error, "No se pudo eliminar el servicio");
   }
 }
