@@ -1,0 +1,35 @@
+<div>
+  <h1>Dashboard</h1>
+  <section class="services" id="services">
+    {{#each services}}
+    <article class="service">
+      <p>{{name}}</p>
+      <p>{{available}}</p>
+      <button onclick="disableService('{{_id}}')">Deshabilitar servicio</button>
+    </article>
+    {{/each}}
+  </section>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  function disableService(id) {
+    socket.emit("update service", { id, available: false })
+  }
+
+  socket.on("updated services", ({ services }) => {
+    let servicesSection = document.getElementById("services");
+    servicesSection.replaceChildren();
+
+    services.forEach((service) => {
+      servicesSection.innerHTML += `
+        <article class="service">
+          <p>${service.name}</p>
+          <p>${service.available}</p>
+          <button onclick="disableService('${service._id}')" >Deshabilitar servicio</button>
+        </article>
+      `
+    })
+  })
+</script>

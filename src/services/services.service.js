@@ -7,7 +7,7 @@ export class ServicesService {
     let services = await this.repository.getAll();
 
     if (category) {
-      serivces = serivces.filter(
+      services = services.filter(
         (service) => service.category.toLowerCase() === category.toLowerCase(),
       );
     }
@@ -76,7 +76,7 @@ export class ServicesService {
     });
   }
 
-  async updateService(id, data){
+  async updateService(id, data) {
     const { name, description, duration, price, category, available } = data;
 
     if (
@@ -101,7 +101,7 @@ export class ServicesService {
       available
     });
 
-    if(!updatedService){
+    if (!updatedService) {
       const error = new Error("Servicio no encontrado");
       error.statusCode = 404;
       throw error;
@@ -109,10 +109,28 @@ export class ServicesService {
 
     return updatedService;
   }
-  async deleteService(id){
+
+  async updateAvailableService(id, available) {
+    if (typeof available !== "boolean") {
+      const error = new Error("Available debe ser un booleano");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const updatedService = await this.repository.update(id, { available });
+
+    if (!updatedService) {
+      const error = new Error("Servicio no encontrado");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    return updatedService;
+  }
+  async deleteService(id) {
     const deletedService = await this.repository.delete(id);
 
-    if(!deletedService){
+    if (!deletedService) {
       const error = new Error("Servicio no encontrado");
       error.statusCode = 404;
       throw error;

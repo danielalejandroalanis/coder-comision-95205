@@ -1,13 +1,25 @@
 import express from "express";
 import { logger } from "./middlewares/logger.middleware.js";
 import servicesRouter from "./routes/services.routes.js";
+import viewsRouter from "./routes/views.routes.js"
+import { engine } from "express-handlebars";
+import http from "http";
+import { Server } from "socket.io";
+import { servicesService } from "./dependencies/index.js";
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 app.use(express.json());
 app.use(logger);
 
-app.get("/", (req, res) => {
+//handlebars config
+app.engine("handlebars", engine());
+app.set("view engine", "handlebars");
+app.set("views", "./src/views")
+
+app.get("/health", (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Servidor inicializado",
@@ -16,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // Routers
+app.use("/", viewsRouter);
 app.use("/api/services", servicesRouter);
 
 // Error Handle
@@ -26,4 +39,16 @@ app.use((req, res) => {
   });
 });
 
-export default app;
+//websockets
+io.on("connection", (socket)=> {
+  console.log("Un nuevo cliente se conecto! " + socket.id);
+
+  socket.on("update service", async({ id, available })=> {
+    await servicesService.updateAvailableService(id, available);
+    const services = await servicesService.getServices();
+    
+    io.emit("updated services", { services });
+  })
+})
+
+export default server;

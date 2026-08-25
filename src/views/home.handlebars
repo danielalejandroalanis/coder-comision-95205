@@ -1,0 +1,31 @@
+<div>
+  <h1>Home</h1>
+  <section class="services" id="services">
+    {{#each services}}
+    <article class="service {{#unless available}}inactive{{/unless}}">
+      <p>{{name}}</p>
+      <p>Precio: ${{price}}</p>
+      <p>Duración: {{duration}}min</p>
+    </article>
+    {{/each}}
+  </section>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  socket.on("updated services", ({ services }) => {
+    let servicesSection = document.getElementById("services");
+    servicesSection.replaceChildren();
+
+    services.forEach((service) => {
+      servicesSection.innerHTML += `
+        <article class="service ${service.available ? '' : 'inactive' } ">
+          <p>${service.name}</p>
+          <p>Precio: $${service.price}</p>
+          <p>Duración: ${service.duration}min</p>
+        </article>
+      `
+    })
+  })
+</script>
