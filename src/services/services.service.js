@@ -3,21 +3,8 @@ export class ServicesService {
     this.repository = repository;
   }
 
-  async getServices({ category, available } = {}) {
-    let services = await this.repository.getAll();
-
-    if (category) {
-      services = services.filter(
-        (service) => service.category.toLowerCase() === category.toLowerCase(),
-      );
-    }
-
-    if (available !== undefined) {
-      const availableBoolean = available === "true";
-      services = services.filter(
-        (service) => service.available === availableBoolean,
-      );
-    }
+  async getServices(category, maxPrice, limit, page) {
+    let services = await this.repository.getAll(category, maxPrice, limit, page);
 
     return services;
   }

@@ -3,8 +3,8 @@ export class ServicesRepository {
     this.dao = dao;
   }
 
-  getAll() {
-    return this.dao.getAll();
+  getAll(category, maxPrice, limit, page) {
+    return this.dao.getAll(category, maxPrice, limit, page);
   }
   getById(id) {
     return this.dao.getById(id);

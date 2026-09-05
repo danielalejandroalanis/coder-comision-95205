@@ -1,8 +1,11 @@
 import { ServiceModel } from "../../models/service.model.js";
 
 export class ServicesMongoDao {
-  async getAll(){
-    return ServiceModel.find().lean();
+  async getAll(category, maxPrice, limit, page){
+    return ServiceModel.paginate({
+      ...( category && { category } ),
+      ...( maxPrice && { price: { $lte: Number(maxPrice) } } )
+    }, { limit, page, lean: true });
   }
 
   async getById(id){

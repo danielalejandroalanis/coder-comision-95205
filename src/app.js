@@ -6,6 +6,7 @@ import { engine } from "express-handlebars";
 import http from "http";
 import { Server } from "socket.io";
 import { servicesService } from "./dependencies/index.js";
+import bookingsRouter from "./routes/bookings.route.js"
 
 const app = express();
 const server = http.createServer(app);
@@ -30,6 +31,7 @@ app.get("/health", (req, res) => {
 // Routers
 app.use("/", viewsRouter);
 app.use("/api/services", servicesRouter);
+app.use("/api/bookings", bookingsRouter);
 
 // Error Handle
 app.use((req, res) => {

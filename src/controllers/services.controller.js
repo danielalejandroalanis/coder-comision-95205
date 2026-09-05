@@ -11,7 +11,8 @@ function sendError(res, error, fallbackMessage) {
 
 export async function getServices(req, res) {
   try {
-    const services = await servicesService.getServices(req.query);
+    const { category, maxPrice, limit = 10, page = 1 } = req.query;
+    const services = await servicesService.getServices(category, maxPrice, limit, page);
 
     return res.status(200).json({
       status: "success",
